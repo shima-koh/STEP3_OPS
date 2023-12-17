@@ -1,31 +1,30 @@
+'use client';
 import React, { useState, useEffect } from 'react';
 
-async function fetchTest() {
-    const staticData =  [
-        {
-            "name": "Store1",
-            "items": [
-                {
-                    "name": "Chair",
-                    "price": 18.99
-                }
-            ]
-        },
-        {
-            "name": "Store2",
-            "items": [
-                {
-                    "name": "Leon",
-                    "price": 12.99
-                }
-            ]
-        }
-    ]
-
+const fetchTest = async () => {
+  try {
+    const staticData = await fetch('http://127.0.0.1:5000/store');
     return staticData.json();
+  } catch (error) {
+    console.error('Error fetching data:', error);
   }
-  
-  export default async function Page() {
-    const stores = await fetchTest();
-    return <pre>{JSON.stringify(stores, null, 2)}</pre>
-  }
+};
+
+const Page = () => {
+  const [stores, setStores] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await fetchTest();
+      setStores(data);
+    };
+
+    fetchData();
+  }, []); // 空の依存配列を渡すことで、マウント時に一度だけ実行されます
+
+  return (
+    <pre>{JSON.stringify(stores, null, 2)}</pre>
+  );
+};
+
+export default Page;

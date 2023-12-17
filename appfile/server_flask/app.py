@@ -2,14 +2,14 @@ from flask import Flask
 from flask_cors import CORS
 
 app = Flask(__name__)
-
+CORS(app)
 stores = [
     {
         "name": "Store1",
         "items": [
             {
                 "name": "Chair",
-                "price": 18.99
+                "price": 23.99
             }
         ]
     },
