@@ -1,7 +1,7 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import  Button  from '@/components/atoms/button';
-import  Header  from '@/components/organisms/header';
+import  Header  from '@/components/containers/header';
 
 const fetchTest = async () => {
     try {
