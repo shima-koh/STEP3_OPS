@@ -1,0 +1,44 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-color: 240, 240, 240; /* 明るいグレーに設定 */
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-color: 20, 20, 20; /* ダークモード用の背景色 */
+  }
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background-color: rgb(var(--background-color)); /* シンプルな背景色を適用 */
+}
+
+.custom-input {
+  width: 80%;
+  padding: 10px;
+  font-size: 1em;
+}
+
+button {
+  background-color: #007bff; /* ブルー */
+  color: white; /* テキスト色を白に */
+  padding: 0.5rem 1rem; /* パディング */
+  border: none; /* 境界線なし */
+  border-radius: 0.25rem; /* 角丸 */
+  cursor: pointer; /* カーソルをポインターに */
+  transition: background-color 0.2s; /* 色の変化を滑らかに */
+}
+
+button:hover {
+  background-color: #0056b3; /* ホバー時の色 */
+}
+
+button:focus {
+  outline: none; /* フォーカス時のアウトラインを削除 */
+}
