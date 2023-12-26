@@ -1,7 +1,6 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import  Button  from '@/components/atoms/button';
-import  Header  from '@/components/containers/header';
 
 const fetchTest = async () => {
     try {
@@ -27,7 +26,6 @@ const Page = () => {
 
     return (
         <pre>
-            <Header/>
             {JSON.stringify(stores, null, 2)}
             <Button link="/"/>
         </pre>
