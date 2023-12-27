@@ -5,9 +5,6 @@ import { useRouter } from 'next/navigation'
 import 'react-perfect-scrollbar/dist/css/styles.css';
 import Link from 'next/link';
 
-import  Card  from '@/components/containers/card';
-
-
 
 const post_detail = () => {
 

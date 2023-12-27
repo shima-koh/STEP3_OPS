@@ -1,3 +1,4 @@
+'use client';
 import Link from 'next/link';
 import React from 'react';
 
@@ -10,7 +11,7 @@ const Header = ({userStatus}) => {
             <> {/* サインインしている場合の表示*/}
                 {/* ヘッダー左端のTitle */}
                 <div className="flex-1">
-                    <Link href="/search" className="btn btn-ghost text-xl">DOJO</Link>
+                    <a href="/search" className="btn btn-ghost text-xl">DOJO</a>
                 </div>
 
                 <div className="flex-none">
@@ -54,7 +55,7 @@ const Header = ({userStatus}) => {
             <>{/*サインインしてない状態の場合 */}
                 {/* ヘッダー左端のTitle */}
                 <div className="flex-1">
-                    <a className="btn btn-ghost text-xl">daisyUI</a>
+                    <a href="/search" className="btn btn-ghost text-xl">daisyUI</a>
                 </div>
 
                 <div className="flex-none">

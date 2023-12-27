@@ -12,12 +12,12 @@ export default function RootLayout({ children }) {
     });
 
     return (
-        <div>
+        <>
             <Header userStatus={userStatus} />
             <div className="md:container md:mx-auto flex flex-col items-center h-[85vh]">
                 {children}
             </div>
-        </div>
+        </>
     
     )
 }
