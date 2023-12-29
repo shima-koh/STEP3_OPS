@@ -36,7 +36,7 @@ const ChatGPT = () => {
         containerRef={(ref) => {
           chatHistoryRef.current = ref;
         }}
-        className="flex-grow overflow-y-auto max-h-[100vh] mb-2 p-4 w-[60vw] break-words"
+        className="flex-grow overflow-y-auto max-h-[80vh] mb-2 p-4 w-[60vw] break-words"
         style={{
           overflowY: 'scroll',
         }}

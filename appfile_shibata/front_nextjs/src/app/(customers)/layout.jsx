@@ -14,7 +14,7 @@ export default function RootLayout({ children }) {
     return (
         <>
             <Header userStatus={userStatus} />
-            <div className="md:container md:mx-auto flex flex-col items-center h-[85vh]">
+            <div className="md:container md:mx-auto flex flex-col items-center">
                 {children}
             </div>
         </>

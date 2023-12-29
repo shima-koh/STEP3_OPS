@@ -20,7 +20,7 @@ const Card = ({ data }) => {
 
     return (
         <Link href="/post_detail/[id]" as={`/post_detail/${postId}`}>
-            <div className="card w-96 bg-base-100 shadow-xl m-4">
+            <div className="card w-96 bg-base-100 shadow-xl m-4 hover:bg-gray-200 transition duration-300">
                 <figure><img src={imageUrl} alt={title} /></figure>
                 <div className="card-body">
                     <h2 className="card-title">

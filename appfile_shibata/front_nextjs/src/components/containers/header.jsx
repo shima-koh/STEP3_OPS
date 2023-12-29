@@ -39,12 +39,15 @@ const Header = ({userStatus}) => {
                         {/* ユーザーアイコンから出るドロップダウンリスト*/}
                         <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
                             <li>
-                                <a className="justify-between">
-                                Profile
-                                <span className="badge">New</span>
+                                <a href="/mypage" className="justify-between">
+                                My Page
                                 </a>
                             </li>
-                            <li><a>Settings</a></li>
+                            <li>
+                                <a href="/worker_profile" className="justify-between">
+                                My Profile
+                                </a>
+                            </li>
                             <li><a>Logout</a></li>
                         </ul>
                     </div>
@@ -55,7 +58,7 @@ const Header = ({userStatus}) => {
             <>{/*サインインしてない状態の場合 */}
                 {/* ヘッダー左端のTitle */}
                 <div className="flex-1">
-                    <a href="/search" className="btn btn-ghost text-xl">daisyUI</a>
+                    <a href="/search" className="btn btn-ghost text-xl">DOJO</a>
                 </div>
 
                 <div className="flex-none">
