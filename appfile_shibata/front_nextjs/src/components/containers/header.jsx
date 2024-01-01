@@ -10,7 +10,7 @@ const Header = ({userStatus}) => {
                 
             <> {/* サインインしている場合の表示*/}
                 {/* ヘッダー左端のTitle */}
-                <div className="flex-1">
+                <div className="flex-1 divide-y divid-gray-200">
                     <a href="/search" className="btn btn-ghost text-xl">DOJO</a>
                 </div>
 

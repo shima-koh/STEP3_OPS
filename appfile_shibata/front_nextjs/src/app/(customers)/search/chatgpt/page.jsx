@@ -58,7 +58,7 @@ const ChatGPT = () => {
       </PerfectScrollbar>
 
       {/* 下部固定入力欄 */}
-      <form onSubmit={handleSubmit} className="fixed bottom-0 p-4 bg-white w-[50vw]">
+      <form onSubmit={handleSubmit} className="fixed bottom-0 p-4 w-[50vw]">
         
         <div className="flex items-center">
 
