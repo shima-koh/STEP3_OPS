@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link';
 import Avatar from '@/components/atoms/avatar';
 import Timeline from '@/components/containers/timeline';
+import  LHeader from '@/components/containers/local_header';
 import {
     Radar, RadarChart, PolarGrid, Legend,
     PolarAngleAxis, PolarRadiusAxis,
@@ -40,12 +41,12 @@ const data = [
 
     return (
         <>
-            <h1>Profile</h1>
+            <LHeader />
 
             <div className='flex w-full'>
 
                 {/**ワーカーのプロフィール */}
-                <div className="card w-96 bg-base-100 shadow-xl p-4">
+                <div className="card w-96 bg-base-100 outline outline-base-200 shadow-xl p-4">
                     {/**ワーカーのプロフィール画像表示 */}
                     <figure className="px-10 pt-10">
                         <Avatar size="L" imageData={imageData}/>
@@ -61,7 +62,7 @@ const data = [
                 <div className='w-full pl-8'>
 
                     {/*ダミーコンテンツ */}
-                    <div className='card bg-base-100 shadow-xl flex p-4 w-full'>
+                    <div className='card bg-base-100 shadow-xl outline outline-base-200 flex p-4 w-full'>
 
                         <div className='flex justify-start'>
                             <h4>Skill set</h4>
@@ -124,7 +125,7 @@ const data = [
                     </div>
 
                     {/*実績タイムライン */}
-                    <div className="card bg-base-100 shadow-xl p-4 mt-4">
+                    <div className="card bg-base-100 shadow-xl outline outline-base-200 p-4 mt-4">
                         <h4>History</h4>
                         <Timeline></Timeline>
                     </div>

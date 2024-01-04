@@ -4,13 +4,16 @@ import 'react-perfect-scrollbar/dist/css/styles.css';
 import Link from 'next/link';
 
 import  Card  from '@/components/containers/card';
-import  Carousel  from '@/components/containers/carousel';
+import { FaMicroblog } from "react-icons/fa6";
+import { IconContext } from 'react-icons'
 
 const fetchTest = async () => {
     try {
         const staticData = await fetch('http://127.0.0.1:5000/activePosts');
         const responseData = await staticData.json(); // Parse JSON
-        return responseData.activePosts; // Access 'activePosts' from parsed JSON
+
+        console.log(responseData);
+        return responseData; // Access 'activePosts' from parsed JSON
     } catch (error) {
         console.error('Error fetching data:', error);
     }
@@ -66,11 +69,11 @@ const search = () => {
                 </form>
 
                 {/* GPT遷移ボタン */}
-                <Link href="/search/chatgpt" className='flex items-center justify-center p-4'>
-                    <button className="btn btn-ghost btn-circle tooltip" data-tip="chat with AI">
-                        <div className="indicator">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
-                        </div>
+                <Link href="/search/chatgpt" className='flex items-center justify-center'>
+                    <button className="btn btn-ghost btn-circle flex flex-col items-center justify-center tooltip" data-tip="chat with AI">
+                        <IconContext.Provider value={{size: '24px', color: 'primary'}}>
+                            <FaMicroblog/>
+                        </IconContext.Provider>
                     </button>
                 </Link>
 

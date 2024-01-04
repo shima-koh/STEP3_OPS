@@ -2,6 +2,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import 'react-perfect-scrollbar/dist/css/styles.css';
+import  LHeader  from '@/components/containers/local_header';
+
 import Link from 'next/link';
 
 const ChatGPT = () => {
@@ -29,6 +31,8 @@ const ChatGPT = () => {
 
   return (
     <>
+
+      <LHeader />
       <h1 className="text-3xl mb-4">Chat with GPT</h1>
 
       {/* チャット表示エリア */}
