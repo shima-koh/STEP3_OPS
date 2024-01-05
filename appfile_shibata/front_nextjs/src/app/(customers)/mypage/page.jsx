@@ -66,7 +66,7 @@ const worker_profile = () => {
                 <div className="grid grid-cols-2 gap-8">
 
                     <div className="flex justify-center items-center">
-                        <Link href="/worker_profile" class='card outline outline-base-300 w-60 h-30 shadow-xl hover:text-primary transition duration-300'>
+                        <Link href="/mycontract_list/" class='card outline outline-base-300 w-60 h-30 shadow-xl hover:text-primary transition duration-300'>
                             <div className="flex flex-col items-center justify-center p-4">
                                 <IconContext.Provider value={{size: '36px'}}>
                                     <FaFileLines />

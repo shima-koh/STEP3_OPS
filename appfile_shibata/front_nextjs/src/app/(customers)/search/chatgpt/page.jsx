@@ -7,17 +7,32 @@ import  LHeader  from '@/components/containers/local_header';
 import Link from 'next/link';
 
 const ChatGPT = () => {
+
   const [userInput, setUserInput] = useState('');
   const [conversation, setConversation] = useState([]);
   const chatHistoryRef = useRef(null);
 
-  const handleSubmit = (event) => {
+
+  const handleSubmit = async(event) => {
     event.preventDefault();
     if (!userInput.trim()) return;
+
+    const res = await fetch('http://localhost:5000/chat', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      // 会話履歴全体を送信
+      body: JSON.stringify({ conversation: [...conversation, { role: "user", content: userInput }] }),
+    });
+
+    const data = await res.json();
+    console.log(conversation);
 
     setConversation([
       ...conversation,
       { role: 'user', content: userInput },
+      { role: "assistant", content: data.response }
     ]);
 
     setUserInput('');
@@ -28,6 +43,7 @@ const ChatGPT = () => {
     // スクロールバーの位置を最下部に移動
     chatHistoryRef.current.scrollTop = chatHistoryRef.current.scrollHeight;
   }, [conversation]);
+
 
   return (
     <>

@@ -1,7 +1,7 @@
 import platform
 print("platform", platform.uname())
 
-from sqlalchemy import create_engine, insert, delete, update, select
+from sqlalchemy import create_engine, insert, delete, update, select, or_
 import sqlalchemy
 from sqlalchemy.orm import sessionmaker
 import json
@@ -58,8 +58,6 @@ def selectActivePosts(mymodel):
             # 再帰的な構造を含む列を削除
             recursive_columns = ['_sa_instance_state']
             df = df.drop(columns=recursive_columns, errors='ignore')
-            
-            print(df[:10])
 
             # DataFrame を JSON 形式に変換
             result_json = df.to_json(orient='records', force_ascii=False, date_format='iso', date_unit='s')
@@ -74,39 +72,77 @@ def selectActivePosts(mymodel):
     return result_json
 
 
-def myupdate(mymodel, values):
+def selectPostDetail(mymodel, post_id):
     # session構築
     Session = sessionmaker(bind=engine)
     session = Session()
 
-    customer_id = values.pop("customer_id")
- 
-    # query = update(Customers).where(Customers.customer_id=="C004").values(customer_name="鈴木C子", age=44)
-    query = update(mymodel).where(mymodel.customer_id==customer_id).values(**values)
     try:
         # トランザクションを開始
         with session.begin():
-            result = session.execute(query)
+            # SQLAlchemy の Query オブジェクトを生成
+            query = session.query(mymodel).filter(mymodel.post_id == post_id)
+
+            # Query オブジェクトを直接実行して結果を取得
+            result = query.all()
+
+            # 結果を DataFrame に変換
+            df = pd.DataFrame([row.__dict__ for row in result])
+
+            print(df)
+
+            # 再帰的な構造を含む列を削除
+            recursive_columns = ['_sa_instance_state']
+            df = df.drop(columns=recursive_columns, errors='ignore')
+            
+
+            # DataFrame を JSON 形式に変換
+            result_json = df.to_json(orient='records', force_ascii=False, date_format='iso', date_unit='s')
+
     except sqlalchemy.exc.IntegrityError:
         print("一意制約違反により、挿入に失敗しました")
-        session.rollback()
-    # セッションを閉じる
-    session.close()
-    return "put"
+        result_json = None
+    finally:
+        # セッションを閉じる
+        session.close()
 
-def mydelete(mymodel, customer_id):
+    return result_json
+
+
+def KeywordPostSearch(mymodel, keyword):
     # session構築
     Session = sessionmaker(bind=engine)
     session = Session()
-    query = delete(mymodel).where(mymodel.customer_id==customer_id)
+
     try:
         # トランザクションを開始
         with session.begin():
-            result = session.execute(query)
+            # SQLAlchemy の Query オブジェクトを生成
+
+            query = session.query(mymodel).filter(or_(mymodel.post_title.like('%' + keyword + '%')),(mymodel.post_content.like('%' + keyword + '%')))
+            #query = query.filter(or_(mymodel.post_title.ilike(f"%{keyword}%"), mymodel.post_content.ilike(f"%{keyword}%")))
+
+            # Query オブジェクトを直接実行して結果を取得
+            result = query.all()
+
+            # 結果を DataFrame に変換
+            df = pd.DataFrame([row.__dict__ for row in result])
+
+            # 再帰的な構造を含む列を削除
+            recursive_columns = ['_sa_instance_state']
+            df = df.drop(columns=recursive_columns, errors='ignore')
+            
+
+            # DataFrame を JSON 形式に変換
+            result_json = df.to_json(orient='records', force_ascii=False, date_format='iso', date_unit='s')
+
     except sqlalchemy.exc.IntegrityError:
         print("一意制約違反により、挿入に失敗しました")
-        session.rollback()
- 
-    # セッションを閉じる
-    session.close()
-    return customer_id + " is deleted"
+        result_json = None
+    finally:
+        # セッションを閉じる
+        session.close()
+
+    return result_json
+
+

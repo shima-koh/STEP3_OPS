@@ -8,22 +8,25 @@ import Link from 'next/link';
 const detail = (props) =>  {
 
     const router = useRouter();
-    const data = props.data;
-
+    const {post_id, post_image, post_postdate, post_title, post_content, post_status} = props.data[0];
     const [bookmarked, setBookmarked] = useState(false)
 
+
     useEffect(() => {
-        setBookmarked(Boolean(localStorage.getItem(data.postId)))}, [data.postId])
+        setBookmarked(Boolean(localStorage.getItem(post_id)))}, [post_id])
 
     const toggleBookmark = () => {
         if (bookmarked) {
-            localStorage.removeItem(data.postId)
+            localStorage.removeItem(post_id)
         } else {
-            localStorage.setItem(data.postId, 'bookmarked')
+            localStorage.setItem(post_id, 'bookmarked')
         }
 
         setBookmarked(!bookmarked)
     }
+
+    const statusCheck =  post_status === 102 ? "応募" : "締切"
+
 
     return (
         <>
@@ -42,9 +45,9 @@ const detail = (props) =>  {
                     </button>
 
                     
-                    <Link href="/contract_progress/[id]" as={`/contract_progress/${data.postId}`}>
+                    <Link href="/contract_progress/[id]" as={`/contract_progress/${post_id}`}>
                         <button type="button" className=" ml-2 btn btn-outline">
-                            {data.status}
+                            {statusCheck}
                         </button>
                     </Link>
                     

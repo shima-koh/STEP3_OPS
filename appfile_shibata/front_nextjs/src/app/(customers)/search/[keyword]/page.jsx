@@ -2,38 +2,42 @@
 import React, { useState, useRef, useEffect } from 'react';
 import 'react-perfect-scrollbar/dist/css/styles.css';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation'
+import { useRouter , useParams } from 'next/navigation'
 import  Card  from '@/components/containers/card';
-import  fetchActivePosts  from '@/components/api/fetchActivePost';
 import { FaMicroblog } from "react-icons/fa6";
 import { IconContext } from 'react-icons'
+import fetchKeywordSearch from '@/components/api/fetchKeywordSearch';
 
-const search = () => {
+const searchresult = () => {
 
     const [userInput, setUserInput] = useState('');
     const [Posts, setPosts] = useState(null);
-
     const router = useRouter();
+    const keyword  = useParams().keyword;
+
+    console.log(keyword);
 
     const handleSubmit = (event) => {
     
         event.preventDefault();
+
         if (!userInput.trim()) return;
-
+    
         const keyword = userInput;
-
         router.push(`/search/${keyword}`);
-        
+
     }
     
     useEffect(() => {
         const fetchData = async () => {
-            const data = await fetchActivePosts();
+            const data = await fetchKeywordSearch(keyword);
             setPosts(data);
         };
 
         fetchData();
     }, []); // 空の依存配列を渡すことで、マウント時に一度だけ実行されます
+
+    console.log(Posts);
 
     return (
         <>
@@ -87,4 +91,4 @@ const search = () => {
     );
 };
 
-export default search;
+export default searchresult;
