@@ -78,6 +78,7 @@ class Posts(Base):
     post_contractdate:Mapped[datetime] = mapped_column()
     post_requireskill:Mapped[str] = mapped_column()
     post_recruitmentnum:Mapped[int] = mapped_column()
+    post_image:Mapped[str] = mapped_column()
 
 
 class Workers_Posts(Base):

@@ -31,10 +31,14 @@ const detail = (props) =>  {
                 </div>
 
                 <div className='card-body grid space-y-4 px-16 py-8'>
-                    <p><strong>■案件概要</strong><br/>{post_content}</p>
-                    <p><strong>■必要スキル</strong><br/>{post_requireskill}</p>
                     <p><strong>■応募締め切り</strong><br/>{formattedDueDate}</p>
+                    <p><strong>■必要スキル</strong><br/>{post_requireskill}</p>
+                    <p><strong>■案件概要</strong><br/>{post_content}</p>
                 </div>
+
+                <style jsx>{
+                `p {white-space: pre-line; 
+                } `}</style>
         </>
     );
 };

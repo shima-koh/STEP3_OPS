@@ -5,18 +5,39 @@ import Link from 'next/link';
 import  WorkerInfo_Card from '@/components/containers/workerInfo_card';
 import { IconContext } from 'react-icons'
 import { FaGear, FaHeart, FaFileLines, FaEnvelope, FaLightbulb, FaGem } from "react-icons/fa6";
-
+import  fetchWorker  from '@/components/api/fetchWorkerProfile';
 
 const worker_profile = () => {
 
-    const worker_name = "Claire";
-    const worker_id = 3;
-    const introduction = "hello hello profile hello hello profile hello hello profile hello hello profile hello hello profile";
-
+    const worker_id = "w001";
     const router = useRouter(); // ここでuseRouterを呼び出す
+    const [workerInfo, setWorkerInfo] = useState(null);
+    const [worker_name, setWorkerName] = useState(null); 
+    const [worker_image, setWorkerImage] = useState(null); 
+    const [worker_profile, setWorkerProfile] = useState(null); 
 
-    const imageData = "https://msp.c.yimg.jp/images/v2/FUTi93tXq405grZVGgDqG5-6MFLx6IfxonfMofFua39122ucsGpRMMXHaqnPy2bQr8VRbaGZTNm4k2gmmuKdngzMsaM1n75u42jVhB6pPg1iKkjDn5wB5NpbpoxJzlWq2uwcw3nHNQweb5BymPKA5DJuZPPLPDfPJQ0w0VSR92nzE-G845rxiiRDSH0WQWwmzkPH3AmGnC4IMn8JbmSV6YPUqKPkXMCcnkTthRrZHZeDZNRaifXhNCs_BugWVA5o/Avatar.jpg?errorImage=false";
+    useEffect(() => {
+        const fetchWorkerData = async () => {
+            try {
+                // データの取得
+                const data = await fetchWorker(worker_id);
+                setWorkerInfo(data); // 取得したデータをstateに設定
+            } catch (error) {
+                console.error("Error fetching worker data:", error);
+                // エラー処理が必要な場合、適切なエラーハンドリングを行う
+            }
+        };
+        fetchWorkerData(); // 関数の呼び出し
+    }, [worker_id]);
 
+    useEffect(() => {
+        if (workerInfo && workerInfo.length > 0) {
+            setWorkerName(workerInfo[0].worker_name);
+            setWorkerImage(workerInfo[0].worker_image);
+            setWorkerProfile(workerInfo[0].worker_profile);
+        }
+    }, [workerInfo]);
+    
     return (
         <>
             <h1>Profile</h1>
@@ -60,7 +81,7 @@ const worker_profile = () => {
                 </div>
 
                 <div>
-                    <WorkerInfo_Card worker_id={worker_id} worker_name={worker_name} imageData={imageData}/>
+                    <WorkerInfo_Card worker_id={worker_id} worker_name={worker_name} imageData={worker_image}/>
                 </div>
 
                 <div className="grid grid-cols-2 gap-8">

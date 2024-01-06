@@ -5,20 +5,33 @@ import Link from 'next/link';
 import  WorkerInfo_Card from '@/components/containers/workerInfo_card';
 import { IconContext } from 'react-icons'
 import { FaGear, FaHeart, FaFileLines, FaEnvelope, FaLightbulb, FaGem } from "react-icons/fa6";
-
+import  LHeader from '@/components/containers/local_header';
+import  fetchMyContracts from '@/components/api/fetchMyContracts';
 
 const mycontract_list = () => {
 
-    const worker_name = "Claire";
-    const worker_id = 3;
-    const introduction = "hello hello profile hello hello profile hello hello profile hello hello profile hello hello profile";
-
+    const worker_id = "w001";
     const router = useRouter(); // ここでuseRouterを呼び出す
+    const [contractInfo, setContractInfo] = useState(null);
 
-    const imageData = "https://msp.c.yimg.jp/images/v2/FUTi93tXq405grZVGgDqG5-6MFLx6IfxonfMofFua39122ucsGpRMMXHaqnPy2bQr8VRbaGZTNm4k2gmmuKdngzMsaM1n75u42jVhB6pPg1iKkjDn5wB5NpbpoxJzlWq2uwcw3nHNQweb5BymPKA5DJuZPPLPDfPJQ0w0VSR92nzE-G845rxiiRDSH0WQWwmzkPH3AmGnC4IMn8JbmSV6YPUqKPkXMCcnkTthRrZHZeDZNRaifXhNCs_BugWVA5o/Avatar.jpg?errorImage=false";
+    useEffect(() => {
+        const fetchContractData = async () => {
+            try {
+                // データの取得
+                const data = await fetchMyContracts(worker_id);
+                setContractInfo(data); // 取得したデータをstateに設定
+            } catch (error) {
+                console.error("Error fetching worker data:", error);
+                // エラー処理が必要な場合、適切なエラーハンドリングを行う
+            }
+        };
+        fetchContractData(); // 関数の呼び出し
+    }, [worker_id]);
+
 
     return (
         <>
+            <LHeader />
             <div className='space-y-10'>
                 <div className="stats shadow">
                     <div className="stat text-center">
@@ -73,131 +86,49 @@ const mycontract_list = () => {
                                 <th></th>
                             </tr>
                         </thead>
-                        
+
                         <tbody>
-                        {/* row 1 */}
-                            <tr>
-                                <th>
-                                    <label>
-                                        <input type="checkbox" className="checkbox" />
-                                    </label>
-                                </th>
-                                <td>
-                                    <div className="flex items-center gap-3">
-                                        <div>
-                                            <div className="font-bold">アプリ開発案件のタイトルが入る</div>
+                            {contractInfo && contractInfo.map((Info, index) => (
+                                <tr>
+                                    <th>
+                                        <label>
+                                            <input type="checkbox" className="checkbox" />
+                                        </label>
+                                    </th>
+                                    <td>
+                                        <div className="flex items-center gap-3">
+                                            <div>
+                                                <div className="font-bold">{Info.post_title}</div>
+                                            </div>
                                         </div>
-                                    </div>
-                                </td>
-                                <td>Zemlak, Daniel and Leannon</td>
-                                <td>
-                                    <div className="btn btn-accent btn-m ">応募中</div>
-                                </td>
-                                <th>
-                                    <button className="btn btn-ghost btn-xs">details</button>
-                                </th>
-                            </tr>
-                            {/* row 2 */}
-                            <tr>
-                                <th>
-                                <label>
-                                    <input type="checkbox" className="checkbox" />
-                                </label>
-                                </th>
-                                <td>
-                                <div className="flex items-center gap-3">
-                                    <div className="avatar">
-                                    <div className="mask mask-squircle w-12 h-12">
-                                        <img src="/tailwind-css-component-profile-3@56w.png" alt="Avatar Tailwind CSS Component" />
-                                    </div>
-                                    </div>
-                                    <div>
-                                    <div className="font-bold">Brice Swyre</div>
-                                    <div className="text-sm opacity-50">China</div>
-                                    </div>
-                                </div>
-                                </td>
-                                <td>
-                                Carroll Group
-                                <br/>
-                                <span className="badge badge-ghost badge-sm">Tax Accountant</span>
-                                </td>
-                                <td>Red</td>
-                                <th>
-                                <button className="btn btn-ghost btn-xs">details</button>
-                                </th>
-                            </tr>
-                            {/* row 3 */}
-                            <tr>
-                                <th>
-                                <label>
-                                    <input type="checkbox" className="checkbox" />
-                                </label>
-                                </th>
-                                <td>
-                                <div className="flex items-center gap-3">
-                                    <div className="avatar">
-                                    <div className="mask mask-squircle w-12 h-12">
-                                        <img src="/tailwind-css-component-profile-4@56w.png" alt="Avatar Tailwind CSS Component" />
-                                    </div>
-                                    </div>
-                                    <div>
-                                    <div className="font-bold">Marjy Ferencz</div>
-                                    <div className="text-sm opacity-50">Russia</div>
-                                    </div>
-                                </div>
-                                </td>
-                                <td>
-                                Rowe-Schoen
-                                <br/>
-                                <span className="badge badge-ghost badge-sm">Office Assistant I</span>
-                                </td>
-                                <td>Crimson</td>
-                                <th>
-                                <button className="btn btn-ghost btn-xs">details</button>
-                                </th>
-                            </tr>
-                            {/* row 4 */}
-                            <tr>
-                                <th>
-                                <label>
-                                    <input type="checkbox" className="checkbox" />
-                                </label>
-                                </th>
-                                <td>
-                                <div className="flex items-center gap-3">
-                                    <div className="avatar">
-                                    <div className="mask mask-squircle w-12 h-12">
-                                        <img src="/tailwind-css-component-profile-5@56w.png" alt="Avatar Tailwind CSS Component" />
-                                    </div>
-                                    </div>
-                                    <div>
-                                    <div className="font-bold">Yancy Tear</div>
-                                    <div className="text-sm opacity-50">Brazil</div>
-                                    </div>
-                                </div>
-                                </td>
-                                <td>
-                                Wyman-Ledner
-                                <br/>
-                                <span className="badge badge-ghost badge-sm">Community Outreach Specialist</span>
-                                </td>
-                                <td>Indigo</td>
-                                <th>
-                                <button className="btn btn-ghost btn-xs">details</button>
-                                </th>
-                            </tr>
-                            </tbody>
-                            {/* foot */}
-                            <tfoot>
-                            <tr>
-                                <th></th>
-                                <th>Name</th>
-                                <th>Job</th>
-                                <th>Favorite Color</th>
-                                <th></th>
-                            </tr>
-                        </tfoot>
+                                    </td>
+                                    <td>{Info.post_title}</td>
+                                    <td>
+                                    {(() => {
+                                        let status;
+                                        if (Info.workers_posts) {
+                                            const workerpost_progress = Info.workers_posts.workerpost_progress;
+                                            if (workerpost_progress === 102) {
+                                                status = "応募中";
+                                            } else if (workerpost_progress >= 201 && workerpost_progress < 300) {
+                                                status = "契約中";
+                                            } else if(workerpost_progress === 300){
+                                                status = "完了";
+                                            }
+                                        } else {
+                                            status = "キャンセル";
+                                        }
+                                        return <div className="btn btn-accent btn-m">{status}</div>;
+                                    })()}
+                                    </td>
+                                    <th>
+                                        <Link  href="/contract_progress/[id]" as={`/contract_progress/${Info.post_id}`}>
+                                            <button className="btn btn-ghost btn-xs">details</button>
+                                        </Link>
+                                    </th>
+                                </tr>
+                            ))}
+                        </tbody>
                     </table>
                 </div>
             </div>       

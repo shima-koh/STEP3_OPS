@@ -6,18 +6,37 @@ import  Detail from '@/components/containers/detail';
 import  PHeader from '@/components/containers/post_header';
 import  LHeader from '@/components/containers/local_header';
 import  fetchPostDetail from '@/components/api/fetchPostDetail';
+import  fetchOrderStatus from '@/components/api/fetchOrderStatus';
 import Link from 'next/link';
 
 const post_detail = () => {
 
     const post_id  = useParams().id;
     const [postDetail, setPostDetail] = useState(null);
+    const [postStatus, setPostStatus] = useState(null);
+
+    
 
     useEffect(() => {
         const fetchDetail = async () => {
             if (post_id) {
                 const data = await fetchPostDetail(post_id);
                 setPostDetail(data);
+    
+                const statusdata = await fetchOrderStatus(post_id);
+    
+                // レスポンスが空欄でないことを確認
+                if (statusdata && statusdata.length > 0) {
+                    const hold = statusdata[0].workerpost_progress;
+                    setPostStatus(hold);
+                    console.log("格納がある場合");
+                    console.log(statusdata);
+                } else {
+                    const hold = 999;
+                    setPostStatus(hold);
+                    console.log("格納がない場合");
+                    console.log(hold);
+                }
             }
         };
         fetchDetail();
@@ -42,7 +61,7 @@ const post_detail = () => {
                 <div className="card w-[80vw] bg-base-100 shadow-xl outline outline-base-200">
 
                 {/*案件ヘッダー*/}
-                <PHeader data={postDetail}></PHeader>
+                <PHeader post_status={postStatus} post_id = {post_id} />
 
                 <Detail data={postDetail}/>
 

@@ -8,8 +8,8 @@ from flask_migrate import Migrate
 from control_db.mymodels import Base
 from openai import OpenAI
 from openai import ChatCompletion
-from langchain import SQLDatabase, PromptTemplate, SQLDatabaseChain, OpenAI
-from langchain_community.document_loaders import JSONLoader
+#from langchain import SQLDatabase, PromptTemplate, SQLDatabaseChain, OpenAI
+#from langchain_community.document_loaders import JSONLoader
 
 import json
 from pathlib import Path
@@ -30,7 +30,7 @@ login_manager.init_app(app)
 
 # ChatCompletionクラスをインスタンス化します。
 
-
+worker_id = "w001"
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -94,8 +94,8 @@ def chat():
 
     print(conversation)
 
-    model = mymodels.Posts
-    result = crud.selectActivePosts(model)
+    #model = mymodels.Posts
+    #result = crud.selectActivePosts(model)
     
     # OpenAIのAPIを使用してChatGPTに問い合わせます。
     client = OpenAI(
@@ -124,22 +124,64 @@ def get_activePosts():
 @app.route("/post_detail", methods=['GET'])
 def read_one_post():
     target_id = request.args.get('post_id') #クエリパラメータ
-    print(target_id)
     model = mymodels.Posts
     result = crud.selectPostDetail(model,target_id)
-
-    print(result)
     return result, 200
+
+
+@app.route("/post_status", methods=['GET'])
+def read_one_ordeStatus():
+    target_id = request.args.get('post_id') #クエリパラメータ
+    model = mymodels.Workers_Posts
+    result = crud.selectOrderStatus(model, target_id, worker_id)
+    return result, 200
+
 
 @app.route("/keywordSearch", methods=['GET'])
 def get_searchPosts():
     target_word = request.args.get('keyword') #クエリパラメータ
-    print(target_word+"でCRUD実行")
     model = mymodels.Posts
     result = crud.KeywordPostSearch(model, target_word)
-
-    print("結果："+ result)
     return result, 200
+
+
+@app.route("/worker", methods=['GET'])
+def get_Worker():
+    target_worker = request.args.get('worker_id') #クエリパラメータ
+    print(target_worker+"でCRUD実行")
+    model = mymodels.Workers
+    result = crud.WorkerInfo(model, target_worker)
+    return result, 200
+
+
+@app.route("/contract_list", methods=['GET'])
+def get_Mycontract():
+    target_worker = request.args.get('worker_id') #クエリパラメータ
+    print(target_worker+"でCRUD実行")
+    model1 = mymodels.Posts
+    model2 = mymodels.Workers_Posts
+    result = crud.MyContractList(model1, model2, target_worker)
+    return result, 200
+
+
+@app.route("/InsertOrder", methods=['POST'])
+def Insert_order():
+    data = request.get_json()
+
+    # データが存在するか確認
+    if 'post_id' in data:
+        post_id = data['post_id']
+        print(post_id, worker_id)
+        model = mymodels.Workers_Posts
+        result = crud.InsertOrder(model, post_id, worker_id)
+        # 成功した場合は応答を返す
+        return jsonify({"success": True, "message": "Order inserted successfully."}), 200
+    else:
+        # エラー応答を返す（post_idが存在しない場合）
+        print("受け取りでエラーになってる")
+        return jsonify({"success": False, "message": "Invalid data format."}), 400
+
+
 
 
 

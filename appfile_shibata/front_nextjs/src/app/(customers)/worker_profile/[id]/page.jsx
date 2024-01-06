@@ -1,29 +1,55 @@
 "use client";
 import React, { useState, useRef, useEffect } from 'react';
-import { useRouter } from 'next/navigation'
+import { useRouter, useParams } from 'next/navigation'
 import Link from 'next/link';
 import Avatar from '@/components/atoms/avatar';
 import Timeline from '@/components/containers/timeline';
 import  LHeader from '@/components/containers/local_header';
+import  fetchWorker  from '@/components/api/fetchWorkerProfile';
+
 import {
     Radar, RadarChart, PolarGrid, Legend,
     PolarAngleAxis, PolarRadiusAxis,
 } from 'recharts';
 
-
 const worker_profile = () => {
 
-    const worker_name = "Claire";
-    const introduction = "hello hello profile hello hello profile hello hello profile hello hello profile hello hello profile";
+    const router = useRouter(); // ここでuseRouterを呼び出す
+    const worker_id  = useParams().id;
+    const [workerInfo, setWorkerInfo] = useState(null);
+    const [worker_name, setWorkerName] = useState(null); 
+    const [worker_image, setWorkerImage] = useState(null); 
+    const [worker_profile, setWorkerProfile] = useState(null); 
+
+    useEffect(() => {
+        const fetchWorkerData = async () => {
+            try {
+                // データの取得
+                const data = await fetchWorker(worker_id);
+                setWorkerInfo(data); // 取得したデータをstateに設定
+            } catch (error) {
+                console.error("Error fetching worker data:", error);
+                // エラー処理が必要な場合、適切なエラーハンドリングを行う
+            }
+        };
+        fetchWorkerData(); // 関数の呼び出し
+    }, [worker_id]);
+
+    useEffect(() => {
+        if (workerInfo && workerInfo.length > 0) {
+            setWorkerName(workerInfo[0].worker_name);
+            setWorkerImage(workerInfo[0].worker_image);
+            setWorkerProfile(workerInfo[0].worker_profile);
+        }
+    }, [workerInfo]);
+    
 
     // 表示するデータを配列として定義
-const data = [
-    {subject: 'テックスキル', A: 76, fullMark: 100},
-    {subject: 'ビジネススキル', A: 100, fullMark: 100},
-    {subject: 'デザインスキル', A: 65, fullMark: 100},
-];
-
-    const router = useRouter(); // ここでuseRouterを呼び出す
+    const data = [
+        {subject: 'テックスキル', A: 76, fullMark: 100},
+        {subject: 'ビジネススキル', A: 100, fullMark: 100},
+        {subject: 'デザインスキル', A: 65, fullMark: 100},
+    ];
 
     const handleSubmit = (event) => {
 
@@ -35,10 +61,6 @@ const data = [
     router.push('/contract_progress');
     }
 
-    const [userInput, setUserInput] = useState('');
-
-    const imageData = "https://msp.c.yimg.jp/images/v2/FUTi93tXq405grZVGgDqG5-6MFLx6IfxonfMofFua39122ucsGpRMMXHaqnPy2bQr8VRbaGZTNm4k2gmmuKdngzMsaM1n75u42jVhB6pPg1iKkjDn5wB5NpbpoxJzlWq2uwcw3nHNQweb5BymPKA5DJuZPPLPDfPJQ0w0VSR92nzE-G845rxiiRDSH0WQWwmzkPH3AmGnC4IMn8JbmSV6YPUqKPkXMCcnkTthRrZHZeDZNRaifXhNCs_BugWVA5o/Avatar.jpg?errorImage=false";
-
     return (
         <>
             <LHeader />
@@ -49,13 +71,13 @@ const data = [
                 <div className="card w-96 bg-base-100 outline outline-base-200 shadow-xl p-4">
                     {/**ワーカーのプロフィール画像表示 */}
                     <figure className="px-10 pt-10">
-                        <Avatar size="L" imageData={imageData}/>
+                        <Avatar size="L" imageData={worker_image}/>
                     </figure>
 
                     {/**ワーカーのプロフィールテキスト */}
                     <div className="card-body items-center text-center">
                         <h2 className="card-title">{worker_name}</h2>
-                        <p>{introduction}</p>
+                        <p>{worker_profile}</p>
                     </div>
                 </div>
 
@@ -72,9 +94,9 @@ const data = [
 
                             <RadarChart  // レーダーチャート全体の設定を記述
                                 width={500}  // レーダーチャートが記載される幅(この幅よりチャートが大きい場合、はみ出た箇所は表示されない)
-                                height={400}   // レーダーチャートが記載される高さ
+                                height={300}   // レーダーチャートが記載される高さ
                                 cx={250}  // 描画枠の左端とチャートの中心点との距離(0にするとチャートの左半分が隠れる。width全体が500だから250だと中心になる)
-                                cy={200}  // 描画枠の上部とチャートの中心点との距離(0にするとチャートの上半分が隠れる。hight全体が500だから250だと中心になる)
+                                cy={150}  // 描画枠の上部とチャートの中心点との距離(0にするとチャートの上半分が隠れる。hight全体が500だから250だと中心になる)
                                 outerRadius={100}  // レーダーチャート全体の大きさ  
                                 data={data}  // 表示対象のデータ
                             >
@@ -84,12 +106,6 @@ const data = [
                                 {/* 軸を決める項目(サンプルでいう数学や歴史) */}
                                 <PolarAngleAxis dataKey="subject" />
                                 
-                                {/* 目安となる数値が表示される線を指定  
-                                <PolarRadiusAxis 
-                                    angle={90}  // 中心点から水平を0°とした時の角度 垂直にしたいなら90を指定
-                                    domain={[0, 100]}  // リストの１番目の要素が最小値、2番目の要素が最大値
-                                />  */}
-                                
                                 {/* レーダーを表示 */}
                                 <Radar 
                                     name="Aさん"  // そのチャートが誰のデータか指定(チャート下にここで指定した値が表示される)
@@ -98,11 +114,6 @@ const data = [
                                     fill="#8884d8"  // レーダー内の色
                                     fillOpacity={0.6}  // レーダー内の色の濃さ(1にすると濃さMAX)
                                 />
-
-                                {/* グラフの下のAさんBさんの表記 
-                                <Legend />
-                                */}
-
                             </RadarChart>
 
                             <div className='join join-vertical flex p-4 items-center'>

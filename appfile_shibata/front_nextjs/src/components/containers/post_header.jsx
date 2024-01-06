@@ -3,14 +3,18 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useRouter} from 'next/navigation'
 import { FaBookmark, FaRegBookmark } from "react-icons/fa6";
 import { IconContext } from 'react-icons';
+import  InsertOrder from '@/components/api/InsertOrder';
 import Link from 'next/link';
 
 const detail = (props) =>  {
 
     const router = useRouter();
-    const {post_id, post_image, post_postdate, post_title, post_content, post_status} = props.data[0];
-    const [bookmarked, setBookmarked] = useState(false)
+    const post_status =  props.post_status;
+    const post_id = props.post_id;
 
+    console.log(props);
+
+    const [bookmarked, setBookmarked] = useState(false)
 
     useEffect(() => {
         setBookmarked(Boolean(localStorage.getItem(post_id)))}, [post_id])
@@ -25,7 +29,30 @@ const detail = (props) =>  {
         setBookmarked(!bookmarked)
     }
 
-    const statusCheck =  post_status === 102 ? "応募" : "締切"
+    const handleSubmit = async(event) => {    
+        event.preventDefault();
+        
+        if(post_status === 999){
+            await InsertOrder(post_id);
+        }
+        router.push(`/contract_progress/${post_id}`);
+    }
+
+
+    let statusCheck;
+    if (post_status === 999) {
+        statusCheck = "応募する";
+    } else if (post_status >= 102 && post_status <= 204) {
+        statusCheck = "応募済";
+    } else if (post_status === 301) {
+        statusCheck = "終了";
+    } else if (post_status >= 302 && post_status <= 306) {
+        statusCheck = "キャンセル";
+    } else if (post_status === 307){
+        statusCheck = "締切済";
+    }else{
+        statusCheck = "エラー"
+    }
 
 
     return (
@@ -44,12 +71,11 @@ const detail = (props) =>  {
                             </IconContext.Provider>}
                     </button>
 
-                    
-                    <Link href="/contract_progress/[id]" as={`/contract_progress/${post_id}`}>
-                        <button type="button" className=" ml-2 btn btn-outline">
+                    <form onSubmit={handleSubmit}>
+                        <button type="submit" className=" ml-2 btn btn-outline">
                             {statusCheck}
                         </button>
-                    </Link>
+                    </form>
                     
                 </div>
 
