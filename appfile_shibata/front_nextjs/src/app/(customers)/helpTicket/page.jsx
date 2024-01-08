@@ -6,6 +6,7 @@ import  WorkerInfo_Card from '@/components/containers/workerInfo_card';
 import { IconContext } from 'react-icons'
 import { FaGear, FaHeart, FaFileLines, FaEnvelope, FaLightbulb, FaGem } from "react-icons/fa6";
 import  fetchWorker  from '@/components/api/fetchWorkerProfile';
+import  LHeader from '@/components/containers/local_header';
 
 const worker_profile = () => {
 
@@ -40,9 +41,11 @@ const worker_profile = () => {
     
     return (
         <>
+            <LHeader />
+
             <div className='w-[60hv] p-8 space-y-10 '>
 
-                <div className="stats shadow outline-base-300 outline-double">
+                <div className="stats shadow grid justify-items-center outline-base-300 outline-double">
                     <div className="stat text-center">
 
                         <div className="stat-figure text-neutral">
@@ -78,52 +81,17 @@ const worker_profile = () => {
                     </div>
                 </div>
 
-                <div>
-                    <WorkerInfo_Card worker_id={worker_id} worker_name={worker_name} imageData={worker_image}/>
-                </div>
 
-                <div className="grid grid-cols-2 gap-8">
+                <div className="grid grid-cols-3 gap-8">
 
-                    <div className="flex justify-center items-center">
-                        <Link href="/mycontract_list/" class='card outline outline-base-300 hover:outline-primary w-60 h-30 shadow-xl hover:shadow-yellow-800/30 text-neutral hover:text-primary transition duration-200 hover:duration-300'>
-                            <div className="flex flex-col items-center justify-center p-4">
-                                <IconContext.Provider value={{size: '36px'}}>
-                                    <FaFileLines />
-                                </IconContext.Provider>
-                                <h2 className='pt-2'>契約一覧</h2>
-                            </div>
-                        </Link>
-                    </div>
 
                     <div className="flex justify-center items-center">
                         <Link href="/worker_profile" class='card outline outline-base-300 hover:outline-primary w-60 h-30 shadow-xl hover:shadow-yellow-800/30 text-neutral hover:text-primary transition duration-200 hover:duration-300'>
-                            <div className="flex flex-col items-center justify-center p-4">
-                                <IconContext.Provider value={{size: '36px'}}>
-                                    <FaHeart />
-                                </IconContext.Provider>
-                                <h2 className='pt-2'>お気に入り一覧</h2>
-                            </div>
-                        </Link>
-                    </div>
-
-                    <div className="flex justify-center items-center">
-                        <Link href="/worker_profile" class='card outline outline-base-300 hover:outline-primary w-60 h-30 shadow-xl hover:shadow-yellow-800/30 text-neutral hover:text-primary transition duration-200 hover:duration-300'>
-                            <div className="flex flex-col items-center justify-center p-4">
-                                <IconContext.Provider value={{size: '36px'}}>
-                                    <FaLightbulb />
-                                </IconContext.Provider>
-                                <h2 className='pt-2'>フィードバック</h2>
-                            </div>
-                        </Link>
-                    </div>
-
-                    <div className="flex justify-center items-center">
-                        <Link href="/helpTicket" class='card outline outline-base-300 hover:outline-primary w-60 h-30 shadow-xl hover:shadow-yellow-800/30 text-neutral hover:text-primary transition duration-200 hover:duration-300'>
                             <div className="flex flex-col items-center justify-center p-4">
                                 <IconContext.Provider value={{size: '36px'}}>
                                     <FaGem />
                                 </IconContext.Provider>
-                                <h2 className='pt-2'>お助けチケット</h2>
+                                <h2 className='pt-2'>チケット利用</h2>
                             </div>
                         </Link>
                     </div>
@@ -134,7 +102,7 @@ const worker_profile = () => {
                                 <IconContext.Provider value={{size: '36px'}}>
                                     <FaEnvelope />
                                 </IconContext.Provider>
-                                <h2 className='pt-2'>お知らせ</h2>
+                                <h2 className='pt-2'>チケット購入</h2>
                             </div>
                         </Link>
                     </div>
@@ -145,7 +113,7 @@ const worker_profile = () => {
                                 <IconContext.Provider value={{size: '36px'}}>
                                     <FaGear />
                                 </IconContext.Provider>
-                                <h2 className='pt-2'>設定</h2>
+                                <h2 className='pt-2'>利用履歴</h2>
                             </div>
                         </Link>
                     </div>
