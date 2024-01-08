@@ -68,7 +68,7 @@ const ChatGPT = () => {
               <strong>{entry.role === 'user' ? 'You' : 'GPT'}:</strong>
             </p>
             <div className={entry.role === 'user' ? 'text-right' : 'text-left'}>
-              <p className="bg-primary-content inline-block p-4 rounded-tl-full rounded-br-full rounded-bl-full">
+              <p className="bg-base-400 inline-block p-4 rounded-tl-full rounded-br-full rounded-bl-full">
                 {entry.content}
               </p>
             </div>

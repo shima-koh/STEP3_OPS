@@ -40,18 +40,25 @@ const detail = (props) =>  {
 
 
     let statusCheck;
+    let design;
     if (post_status === 999) {
         statusCheck = "応募する";
+        design = "ml-2 btn btn-outline";
     } else if (post_status >= 102 && post_status <= 204) {
         statusCheck = "応募済";
+        design = "ml-2 btn btn-outline btn-active btn-primary";
     } else if (post_status === 301) {
         statusCheck = "終了";
+        design = "ml-2 btn btn-outline btn-active btn-primary";
     } else if (post_status >= 302 && post_status <= 306) {
         statusCheck = "キャンセル";
+        design = "ml-2 btn btn-outline  btn-error";
     } else if (post_status === 307){
         statusCheck = "締切済";
+        design = "ml-2 btn btn-outline btn-active btn-primary";
     }else{
         statusCheck = "エラー"
+        design = "ml-2 btn btn-outline  btn-error";
     }
 
 
@@ -72,7 +79,7 @@ const detail = (props) =>  {
                     </button>
 
                     <form onSubmit={handleSubmit}>
-                        <button type="submit" className=" ml-2 btn btn-outline">
+                        <button type="submit" className={design}>
                             {statusCheck}
                         </button>
                     </form>

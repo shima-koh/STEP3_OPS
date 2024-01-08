@@ -40,14 +40,14 @@ const Home = () => {
         </div>
         
           <Link href="/login">
-            <button className="btn bg-black text-white">Log in</button>
+            <button className="btn bg-primary text-nautral">Log in</button>
           </Link>
       </nav>
 
       <div className="flex flex-col lg:flex-row items-center gap-12 mt-12 lg:mt-24">
 
         <div className="w-full p-24">
-          <h1 className="text-5xl font-bold mb-6">This app will give you experience and accelerate reskilling</h1>
+          <h1 className="text-5xl font-bold mb-6">This app will give you experience and accelerate <span className="text-primary">reskilling</span></h1>
           <p className="text-gray-600 mb-6">
             Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo.<br/> Elit sunt amet
             fugiat veniam occaecat fugiat aliqua.

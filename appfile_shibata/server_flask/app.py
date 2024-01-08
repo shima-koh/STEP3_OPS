@@ -10,25 +10,18 @@ from openai import OpenAI
 from openai import ChatCompletion
 #from langchain import SQLDatabase, PromptTemplate, SQLDatabaseChain, OpenAI
 #from langchain_community.document_loaders import JSONLoader
-
 import json
 from pathlib import Path
 from pprint import pprint
+from langchain_community.document_loaders import DataFrameLoader
 
 
 app = Flask(__name__)
 CORS(app)
-
 app.config['SECRET_KEY'] = os.urandom(24)
 migrate = Migrate(app, Base)
-
 login_manager = LoginManager()
 login_manager.init_app(app)
-
-# 最新のAPIキーを取得します。
-#api_key = os.environ.get('OPENAI_API_KEY')
-
-# ChatCompletionクラスをインスタンス化します。
 
 worker_id = "w001"
 
@@ -77,7 +70,6 @@ def signin():
     # ...
     return 200
 
-
 # ログアウト処理
 @app.route('/logout')
 def logout():
@@ -91,23 +83,23 @@ def logout():
 def chat():
     # フロントエンドからの会話履歴を取得します。
     conversation = request.json.get('conversation')
-
-    print(conversation)
-
     #model = mymodels.Posts
     #result = crud.selectActivePosts(model)
     
     # OpenAIのAPIを使用してChatGPTに問い合わせます。
     client = OpenAI(
     api_key="YOUR API KEY"
-)
+    )
+    model = mymodels.Posts
+    df = crud.ActivePosts(model)
+
+    loader = DataFrameLoader(df, page_content_column="post_id")
+    duc = loader.load()
 
     response = client.chat.completions.create(
         model="gpt-3.5-turbo",
         messages=conversation  # 更新された会話履歴を使用
     )
-    
-    print(response)
 
     # ChatGPTからの応答をフロントエンドに返します。
     return jsonify({'response': response.choices[0].message.content})
@@ -148,16 +140,42 @@ def get_searchPosts():
 @app.route("/worker", methods=['GET'])
 def get_Worker():
     target_worker = request.args.get('worker_id') #クエリパラメータ
-    print(target_worker+"でCRUD実行")
     model = mymodels.Workers
     result = crud.WorkerInfo(model, target_worker)
     return result, 200
 
+@app.route("/company", methods=['GET'])
+def get_Company():
+    target_company = request.args.get('company_id') #クエリパラメータ
+    model = mymodels.Companies
+    result = crud.CompanyInfo(model, target_company)
+    return result, 200
+
+@app.route("/fb", methods=['GET'])
+def get_MyFb():
+    target_post = request.args.get('post_id') #クエリパラメータ
+    model = mymodels.FeedBacks
+    result = crud.FeedBack(model, target_post)
+    return result, 200
+
+@app.route("/fbs", methods=['GET'])
+def get_MyFbs():
+    target_worker = request.args.get('worker_id') #クエリパラメータ
+    model = mymodels.FeedBacks
+    result = crud.FeedBacks(model, target_worker)
+    return result, 200
+
+@app.route("/workerSkill", methods=['GET'])
+def get_Myskill():
+    target_worker = request.args.get('worker_id') #クエリパラメータ
+    model1 = mymodels.Workers_Skills
+    model2 = mymodels.Skills
+    result = crud.WorkerSkill(model1, model2, target_worker)
+    return result, 200
 
 @app.route("/contract_list", methods=['GET'])
 def get_Mycontract():
     target_worker = request.args.get('worker_id') #クエリパラメータ
-    print(target_worker+"でCRUD実行")
     model1 = mymodels.Posts
     model2 = mymodels.Workers_Posts
     result = crud.MyContractList(model1, model2, target_worker)
@@ -171,7 +189,6 @@ def Insert_order():
     # データが存在するか確認
     if 'post_id' in data:
         post_id = data['post_id']
-        print(post_id, worker_id)
         model = mymodels.Workers_Posts
         result = crud.InsertOrder(model, post_id, worker_id)
         # 成功した場合は応答を返す
@@ -180,9 +197,6 @@ def Insert_order():
         # エラー応答を返す（post_idが存在しない場合）
         print("受け取りでエラーになってる")
         return jsonify({"success": False, "message": "Invalid data format."}), 400
-
-
-
 
 
 if __name__ == "__main__":

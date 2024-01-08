@@ -18,16 +18,15 @@ const Card = (props) => {
         // date_posted が1週間以内の場合に "NEW" バッジを表示
         const isNew = postedDate >= oneWeekAgo && postedDate <= today;
 
-
-        const maxLength =  isNew ? 12 : 15; // 適切な文字数に調整
+        const maxLength =  isNew ? 12 : 15; // タイトルを適切な文字数に調整
         const displayTitle = post_title.length > maxLength ? post_title.slice(0, maxLength) + '...' : post_title;
 
-        const summaryLength = 35;
+        const summaryLength = 35; // コンテンツを適切な文字数に調整
         const displayContent = post_content.length > summaryLength ? post_content.slice(0, summaryLength) + '...' : post_content;
 
     return (
         <Link href="/post_detail/[id]" as={`/post_detail/${post_id}`}>
-            <div className="card w-96 bg-base-100 shadow-xl m-4 hover:bg-gray-200 transition duration-300">
+            <div className="card w-96 bg-base-100 shadow-xl m-4 hover:bg-base-200 transition duration-300">
                 <figure className="h-48"><img src={post_image} alt={post_title} /></figure>
                 <div className="card-body">
                     <h2 className="card-title">

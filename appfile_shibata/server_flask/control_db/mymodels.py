@@ -96,9 +96,13 @@ class FeedBacks(Base):
     __tablename__ = 'feedbacks'
     feedback_id:Mapped[str] = mapped_column(primary_key=True)
     post_id:Mapped[str] = mapped_column(ForeignKey("posts.post_id"))
+    post_title:Mapped[str] = mapped_column(ForeignKey("posts.post_title"))
     direction:Mapped[int] = mapped_column() #企業からワーカへの評価：１　 ワーカーから企業への評価:２
     worker_id:Mapped[str] = mapped_column(ForeignKey("workers.worker_id"))
     company_id:Mapped[str] = mapped_column(ForeignKey("companies.company_id"))
     feedback_regdate:Mapped[datetime] = mapped_column()
     totalscore:Mapped[int] = mapped_column()
     feedback_content:Mapped[str] = mapped_column()
+    TechScore:Mapped[int] = mapped_column()
+    DesignScore:Mapped[int] = mapped_column()
+    BizScore:Mapped[int] = mapped_column()

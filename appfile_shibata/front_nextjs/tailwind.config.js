@@ -17,17 +17,30 @@ module.exports = {
   },
 
   daisyui: {
-    themes: [
+    themes: [          
       {
         mytheme: {
-          "primary": "BA5809",
-          "secondary": "9FA194",
-          "accent": "16354D",
-          "neutral": "443927",
-          "base-100": "F7F7EC",
+        "primary": "#f59e0b",       //orange
+        "secondary": "#65a30d",    //
+        "accent": "#facc15",
+        "neutral": "#57534e",
+        "base-100": "#f5f5f4",
+        "info": "#0ea5e9",
+        "success": "#0ea5e9",
+        "warning": "#facc15",
+        "error": "#da0009",
+      },
+    },
+    /* {bumblebee
+        mytheme: {
+          "primary": "74953C",
+          "secondary": "916132",
+          "accent": "EECA8B",
+          "neutral": "DAD4D2",
+          "base-100": "F9F4F3",
           
         },
-      },
+      },*/
     ],
   },
 

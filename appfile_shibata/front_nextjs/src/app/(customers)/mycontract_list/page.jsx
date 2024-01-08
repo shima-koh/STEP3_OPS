@@ -33,7 +33,7 @@ const mycontract_list = () => {
         <>
             <LHeader />
             <div className='space-y-10'>
-                <div className="stats shadow">
+                <div className="stats shadow grid justify-items-center outline-base-300 outline-double">
                     <div className="stat text-center">
 
                         <div className="stat-figure text-primary">
@@ -41,7 +41,7 @@ const mycontract_list = () => {
                                 <FaFileLines />
                             </IconContext.Provider>
                         </div>
-                        <div className="stat-title">契約総数</div>
+                        <div className="stat-title"><strong>契約総数</strong></div>
                         <div className="stat-value text-primary">25</div>
                         <div className="stat-desc">21% more than last month</div>
                     </div>
@@ -52,7 +52,7 @@ const mycontract_list = () => {
                                 <FaFileLines />
                             </IconContext.Provider>
                         </div>
-                        <div className="stat-title">進行中の案件数</div>
+                        <div className="stat-title"><strong>進行中の案件数</strong></div>
                         <div className="stat-value text-primary">6</div>
                         <div className="stat-desc">21% more than last month</div>
                     </div>
@@ -63,7 +63,7 @@ const mycontract_list = () => {
                                 <FaGem />
                             </IconContext.Provider>
                         </div>
-                        <div className="stat-title">保有チケット数</div>
+                        <div className="stat-title"><strong>保有チケット数</strong></div>
                         <div className="stat-value text-primary">2</div>
                         <div className="stat-desc">21% more than last month</div>
                     </div>
@@ -80,10 +80,9 @@ const mycontract_list = () => {
                                         <input type="checkbox" className="checkbox" />
                                     </label>
                                 </th>
-                                <th>title</th>
-                                <th>Content</th>
-                                <th>status</th>
-                                <th></th>
+                                <th><div className="grid justify-items-center gap-3">Post</div></th>
+                                <th><div className="grid justify-items-center gap-3">status</div></th>
+                                <th><div className="grid justify-items-center gap-3">detail</div></th>
                             </tr>
                         </thead>
 
@@ -99,26 +98,34 @@ const mycontract_list = () => {
                                         <div className="flex items-center gap-3">
                                             <div>
                                                 <div className="font-bold">{Info.post_title}</div>
+                                                {
+                                                    Info.post_content.length > 40 ?
+                                                    <div className="text-sm opacity-50">{Info.post_content.slice(0, 40)}...</div> :
+                                                    <div className="text-sm opacity-50">{Info.post_content}</div>
+                                                }
                                             </div>
                                         </div>
                                     </td>
-                                    <td>{Info.post_title}</td>
                                     <td>
                                     {(() => {
                                         let status;
+                                        let style;
                                         if (Info.workers_posts) {
                                             const workerpost_progress = Info.workers_posts.workerpost_progress;
                                             if (workerpost_progress === 102) {
                                                 status = "応募中";
+                                                style = "btn btn-secondary btn-m w-32";
                                             } else if (workerpost_progress >= 201 && workerpost_progress < 300) {
                                                 status = "契約中";
-                                            } else if(workerpost_progress === 300){
+                                                style = "btn btn-primary btn-m w-32"
+                                            } else if(workerpost_progress === 301){
                                                 status = "完了";
+                                                style = "btn btn-nautral btn-m w-32";
                                             }
                                         } else {
                                             status = "キャンセル";
                                         }
-                                        return <div className="btn btn-accent btn-m">{status}</div>;
+                                        return <div className={style}>{status}</div>;
                                     })()}
                                     </td>
                                     <th>

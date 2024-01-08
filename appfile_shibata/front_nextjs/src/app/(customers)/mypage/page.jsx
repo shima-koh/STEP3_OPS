@@ -44,37 +44,37 @@ const worker_profile = () => {
 
             <div className='w-[60hv] p-8 space-y-10 '>
 
-                <div className="stats shadow">
+                <div className="stats shadow outline-base-300 outline-double">
                     <div className="stat text-center">
 
-                        <div className="stat-figure text-primary">
-                            <IconContext.Provider value={{size: '24px', color: 'primary'}}>
+                        <div className="stat-figure text-neutral">
+                            <IconContext.Provider value={{size: '24px', color: 'orange'}}>
                                 <FaFileLines />
                             </IconContext.Provider>
                         </div>
-                        <div className="stat-title">契約総数</div>
+                        <div className="stat-title"><strong>契約総数</strong></div>
                         <div className="stat-value text-primary">25</div>
                         <div className="stat-desc">21% more than last month</div>
                     </div>
                     
                     <div className="stat text-center">
-                    <div className="stat-figure text-primary">
-                            <IconContext.Provider value={{size: '24px', color: 'primary'}}>
+                    <div className="stat-figure text-neutral">
+                            <IconContext.Provider value={{size: '24px', color: 'orange'}}>
                                 <FaFileLines />
                             </IconContext.Provider>
                         </div>
-                        <div className="stat-title">進行中の案件数</div>
+                        <div className="stat-title"><strong>進行中の案件数</strong></div>
                         <div className="stat-value text-primary">6</div>
                         <div className="stat-desc">21% more than last month</div>
                     </div>
                     
                     <div className="stat text-center">
-                    <div className="stat-figure text-primary">
-                            <IconContext.Provider value={{size: '24px', color: 'primary'}}>
+                    <div className="stat-figure text-neutral">
+                            <IconContext.Provider value={{size: '24px', color: 'orange'}}>
                                 <FaGem />
                             </IconContext.Provider>
                         </div>
-                        <div className="stat-title">保有チケット数</div>
+                        <div className="stat-title"><strong>保有チケット数</strong></div>
                         <div className="stat-value text-primary">2</div>
                         <div className="stat-desc">21% more than last month</div>
                     </div>

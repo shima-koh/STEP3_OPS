@@ -1,14 +1,8 @@
 import React, { useState } from 'react';
 
-const Timeline = () => {
-    const timelineData = [
-        { year: '1984', event: 'First Macintosh computer', details: 'Details about the Macintosh computer.' },
-        { year: '1998', event: 'iMac', details: 'Details about the iMac.' },
-        { year: '2001', event: 'iPod', details: 'Details about the iPod.' },
-        { year: '2007', event: 'iPhone', details: 'Details about the iPhone.' },
-        { year: '2015', event: 'Apple Watch', details: 'Details about the Apple Watch.' },
-    ];
+const Timeline = (props) => {
 
+    const fbs = props.data;
     const [selectedItem, setSelectedItem] = useState(null);
 
     const handleItemClick = (index) => {
@@ -17,15 +11,15 @@ const Timeline = () => {
 
     return (
         <div className="flex">
-            <ul className="timeline timeline-vertical">
-                {timelineData.map((item, index) => (
+            <ul className="timeline timeline-vertical w-2/5">
+                {fbs && fbs.map((fb, index) => (
                     <li key={index}>
-                        <div className="timeline-start">{item.year}</div>
+                        <div className="timeline-start">{ new Date(fb.feedback_regdate).toLocaleDateString()}</div>
                         <div
-                            className={`timeline-end timeline-box ${selectedItem === index ? 'selected' : ''}`}
+                            className={`timeline-end timeline-box hover:bg-primary hover:bg-opacity-50 ${selectedItem === index ? 'selected bg-primary bg-opacity-20' : ''}`}
                             onClick={() => handleItemClick(index)}
                         >
-                            <p>{item.event}</p>
+                            <p>{fb.post_title}</p>
                         </div>
                         <hr />
                     </li>
@@ -34,8 +28,12 @@ const Timeline = () => {
 
             {selectedItem !== null && (
                 <div className="ml-4">
-                    <h4>Details</h4>
-                    <p>{timelineData[selectedItem].details}</p>
+                    <h4>実績評価</h4>
+                    <p>■トータルスコア：<strong className="text-lg">{fbs[selectedItem].totalscore}</strong></p>
+                    <p>■テクノロジー領域のスキルへの評価：<strong className="text-lg">{fbs[selectedItem].TechScore}</strong></p>
+                    <p>■デザイン領域のスキルへの評価：<strong className="text-lg">{fbs[selectedItem].DesignScore}</strong></p>
+                    <p>■ビジネス領域のスキルへの評価：<strong className="text-lg">{fbs[selectedItem].BizScore}</strong></p>
+                    <p>■コメント：{fbs[selectedItem].feedback_content}</p>
                 </div>
             )}
         </div>

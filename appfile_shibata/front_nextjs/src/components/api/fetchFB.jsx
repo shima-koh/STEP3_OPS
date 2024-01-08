@@ -1,8 +1,8 @@
 
-const fetchKeywordSearch = async (keyword) => {
+const fetchFB= async (post_id) => {
 
     try {
-        const res = await fetch(`http://127.0.0.1:5000/keywordSearch?keyword=${keyword}`);
+        const res = await fetch(`http://127.0.0.1:5000/fb?post_id=${post_id}`);
         const responseData = await res.json(); // Parse JSON
 
         console.log("API:" + responseData);
@@ -12,5 +12,4 @@ const fetchKeywordSearch = async (keyword) => {
     }
 };
 
-export default fetchKeywordSearch;
-
+export default fetchFB;

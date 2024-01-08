@@ -1,16 +1,18 @@
 "use client";
 import React, { useState } from 'react';
 import fetchLogin from '@/components/api/fetchLogin';
+import { useRouter} from 'next/navigation'
 
 const Login = () => {
     const [formData, setFormData] = useState({
         username: '',
         password: '',
     });
-
+    const router = useRouter();
     const handleSubmit = async (event) => {
         event.preventDefault();
 
+        /*
         try {
             console.log('Form submitted with data:', formData);
 
@@ -45,7 +47,9 @@ const Login = () => {
                 username: '',
                 password: '',
             });
-        }
+        }*/
+
+        router.push(`/search`);
     };
 
     const handleInputChange = (event) => {
@@ -58,14 +62,22 @@ const Login = () => {
     };
 
     return (
-        <div className="flex h-screen">
+        <div className="flex h-screen overflow-hidden">
             {/* 左側の画像部分 */}
-            <div className="w-1/3 bg-cover" style={{ backgroundImage: 'url("/path/to/your/image.jpg")' }}>
-            {/* 画像が入るコンテナ */}
+            <div className="w-1/2 h-screen bg-cover" >
+                <img
+                alt="LoginCover"
+                className="h-full w-full object-cover "
+                /*className="float-left"*/
+                src="/Login_Cover.png"
+                style={{
+                    objectFit: "cover",
+                }}
+                />
             </div>
 
             {/* 右側のログインフォーム部分 */}
-            <div className="w-2/3 flex items-center justify-center p-8">
+            <div className="w-1/2 flex items-center justify-center p-8">
                 {/* ログインフォーム */}
                 <form onSubmit={handleSubmit} className="bg-white px-8 py-16 rounded shadow-xl outline outline-gray-300 grid justify-items-center space-y-8">
                     <h1 className='text-2xl font-bold text-center'>Sign in</h1>
