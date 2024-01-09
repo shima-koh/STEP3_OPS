@@ -62,22 +62,22 @@ const Login = () => {
     };
 
     return (
-        <div className="flex h-screen overflow-hidden">
-            {/* 左側の画像部分 */}
+        <div className="flex h-screen bg-fixed overflow-hidden" style={{ backgroundImage: 'url(/cover2.png)', backgroundSize: 'cover', backgroundPosition: 'center' }} >
+            {/* 左側の画像部分
             <div className="w-1/2 h-screen bg-cover" >
                 <img
                 alt="LoginCover"
                 className="h-full w-full object-cover "
-                /*className="float-left"*/
-                src="/Login_Cover.png"
+                src="/login_cover_english.png"
                 style={{
                     objectFit: "cover",
                 }}
                 />
-            </div>
+            </div>    
+            */}
 
             {/* 右側のログインフォーム部分 */}
-            <div className="w-1/2 flex items-center justify-center p-8">
+            <div className="w-full flex items-center justify-center p-8">
                 {/* ログインフォーム */}
                 <form onSubmit={handleSubmit} className="bg-white px-8 py-16 rounded shadow-xl outline outline-gray-300 grid justify-items-center space-y-8">
                     <h1 className='text-2xl font-bold text-center'>Sign in</h1>
@@ -108,7 +108,7 @@ const Login = () => {
 
                     <button
                         type="submit"
-                        className="bg-primary text-white py-2 px-4 rounded hover:opacity-75"
+                        className="bg-black text-white py-2 px-4 rounded hover:opacity-75"
                     >
                         Log in
                     </button>

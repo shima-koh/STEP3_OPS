@@ -106,3 +106,13 @@ class FeedBacks(Base):
     TechScore:Mapped[int] = mapped_column()
     DesignScore:Mapped[int] = mapped_column()
     BizScore:Mapped[int] = mapped_column()
+
+
+class Tickets(Base):
+    __tablename__ = 'tickets'
+    ticket_id:Mapped[str] = mapped_column(primary_key=True)
+    worker_id:Mapped[str] = mapped_column(ForeignKey("workers.worker_id"))
+    post_id:Mapped[str] = mapped_column(ForeignKey("posts.post_id"))
+    get_date:Mapped[datetime] = mapped_column()
+    use_date:Mapped[datetime] = mapped_column()
+    comment:Mapped[str] = mapped_column()

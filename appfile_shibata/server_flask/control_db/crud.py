@@ -306,6 +306,39 @@ def FeedBacks(mymodel, worker_id):
     return result_json
 
 
+def MyTickets(mymodel, worker_id):
+    # session構築
+    Session = sessionmaker(bind=engine)
+    session = Session()
+    try:
+        # トランザクションを開始
+        with session.begin():
+            # SQLAlchemy の Query オブジェクトを生成
+            query = session.query(mymodel).where(mymodel.worker_id == worker_id)
+
+            # Query オブジェクトを直接実行して結果を取得
+            result = query.all()
+            # 結果を DataFrame に変換
+            df = pd.DataFrame([row.__dict__ for row in result])
+
+            # 再帰的な構造を含む列を削除
+            recursive_columns = ['_sa_instance_state']
+            df = df.drop(columns=recursive_columns, errors='ignore')
+
+            # DataFrame を JSON 形式に変換
+            result_json = df.to_json(orient='records', force_ascii=False, date_format='iso', date_unit='s')
+
+    except sqlalchemy.exc.IntegrityError:
+        print("一意制約違反により、挿入に失敗しました")
+        result_json = None
+    finally:
+        # セッションを閉じる
+        session.close()
+    return result_json
+
+
+
+
 def WorkerSkill(mymodel1, mymodel2, worker_id):
     # session構築
     Session = sessionmaker(bind=engine)

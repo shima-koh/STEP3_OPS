@@ -38,7 +38,7 @@ const search = () => {
     return (
         <>
 
-            <div className="join">
+            <div className="join p-8">
 
                 {/* 入力欄 */}
                 <form onSubmit={handleSubmit} className="p-4 w-[50vw]">

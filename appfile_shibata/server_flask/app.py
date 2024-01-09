@@ -90,11 +90,11 @@ def chat():
     client = OpenAI(
     api_key="YOUR API KEY"
     )
-    model = mymodels.Posts
-    df = crud.ActivePosts(model)
 
-    loader = DataFrameLoader(df, page_content_column="post_id")
-    duc = loader.load()
+    #model = mymodels.Posts
+    #df = crud.ActivePosts(model)
+    #loader = DataFrameLoader(df, page_content_column="post_id")
+    #duc = loader.load()
 
     response = client.chat.completions.create(
         model="gpt-3.5-turbo",
@@ -181,6 +181,13 @@ def get_Mycontract():
     result = crud.MyContractList(model1, model2, target_worker)
     return result, 200
 
+
+@app.route("/mytickets", methods=['GET'])
+def get_Mytickets():
+    target_worker = request.args.get('worker_id') #クエリパラメータ
+    model = mymodels.Tickets
+    result = crud.MyTickets(model, target_worker)
+    return result, 200
 
 @app.route("/InsertOrder", methods=['POST'])
 def Insert_order():
