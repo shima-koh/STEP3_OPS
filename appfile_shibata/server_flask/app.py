@@ -189,6 +189,15 @@ def get_Mytickets():
     result = crud.MyTickets(model, target_worker)
     return result, 200
 
+@app.route("/MyBookings", methods=['GET'])
+def get_MyBookings():
+    target_worker = request.args.get('worker_id') #クエリパラメータ
+    print("アクセスはできている")
+    model = mymodels.Tickets
+    result = crud.MyBookings(model, target_worker)
+    return result, 200
+
+
 @app.route("/InsertOrder", methods=['POST'])
 def Insert_order():
     data = request.get_json()
@@ -205,6 +214,25 @@ def Insert_order():
         print("受け取りでエラーになってる")
         return jsonify({"success": False, "message": "Invalid data format."}), 400
 
+
+@app.route("/InsertBooking", methods=['POST'])
+def Insert_booking():
+
+    data = request.get_json()
+    print(data['formData']['worker_id'])
+
+    # データが存在するか確認
+    if 'worker_id' in data['formData']:
+        worker_id = data['formData']['worker_id']
+        print(worker_id)
+        model = mymodels.Tickets
+        result = crud.InsertBooking(model, worker_id, data['formData'])
+        # 成功した場合は応答を返す
+        return jsonify({"success": True, "message": "Order inserted successfully."}), 200
+    else:
+        # エラー応答を返す（post_idが存在しない場合）
+        print("Booking受け取りでエラーになってる")
+        return jsonify({"success": False, "message": "Invalid data format."}), 400
 
 if __name__ == "__main__":
     app.run(debug=True)

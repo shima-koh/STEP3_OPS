@@ -1,25 +1,21 @@
 "use client";
 import React, { useState, useRef, useEffect } from 'react';
-import { useRouter } from 'next/navigation'
-import Link from 'next/link';
-import  WorkerInfo_Card from '@/components/containers/workerInfo_card';
+
 import { IconContext } from 'react-icons'
 import { FaGear, FaHeart, FaFileLines, FaEnvelope, FaLightbulb, FaGem, FaClockRotateLeft, FaCoins, FaRegCalendarCheck } from "react-icons/fa6";
-import  fetchWorker  from '@/components/api/fetchWorkerProfile';
+import  InsertBooking  from '@/components/api/InsertBooking';
 import  LHeader from '@/components/containers/local_header';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css"
 import  fetchMyContracts from '@/components/api/fetchMyContracts';
 import  fetchMytickets from '@/components/api/fetchMytickets';
+import  fetchMyBookings from '@/components/api/fetchMyBookings';
 
 const worker_profile = () => {
 
     const worker_id = "w001";
-    const router = useRouter(); // ここでuseRouterを呼び出す
-    const [workerInfo, setWorkerInfo] = useState(null);
-    const [worker_name, setWorkerName] = useState(null); 
-    const [worker_image, setWorkerImage] = useState(null); 
-    const [worker_profile, setWorkerProfile] = useState(null); 
+
+    const [MyBookings, setMyBookings] = useState(null);
     const [selectedItem, setSelectedItem] = useState(null);
     const [startDate, setStartDate] = useState(new Date());
     const [contractInfo, setContractInfo] = useState(null);
@@ -27,6 +23,8 @@ const worker_profile = () => {
     const [contractProgress, setProgress] = useState(null);
     const [mytickets, setMytickets] = useState(null);
     const [holdtickets, setHoldtickets] = useState(null);
+    const [selectedPost, setSelectedPost] = useState('');
+    const [question, setQuestion] = useState('');
 
     const handleItemClick = (index) => {
         setSelectedItem(index === selectedItem ? null : index);
@@ -36,14 +34,14 @@ const worker_profile = () => {
         const fetchWorkerData = async () => {
             try {
                 // データの取得
-                const data = await fetchWorker(worker_id);
-                setWorkerInfo(data); // 取得したデータをstateに設定
-
                 const contractdata = await fetchMyContracts(worker_id);
                 setContractInfo(contractdata); // 取得したデータをstateに設定
 
                 const ticketdata = await fetchMytickets(worker_id);
                 setMytickets(ticketdata); // 取得したデータをstateに設定
+
+                const bookingdata = await fetchMyBookings(worker_id);
+                setMyBookings(bookingdata);
             } catch (error) {
                 console.error("Error fetching worker data:", error);
                 // エラー処理が必要な場合、適切なエラーハンドリングを行う
@@ -51,14 +49,6 @@ const worker_profile = () => {
         };
         fetchWorkerData(); // 関数の呼び出し
     }, [worker_id]);
-
-    useEffect(() => {
-        if (workerInfo && workerInfo.length > 0) {
-            setWorkerName(workerInfo[0].worker_name);
-            setWorkerImage(workerInfo[0].worker_image);
-            setWorkerProfile(workerInfo[0].worker_profile);
-        }
-    }, [workerInfo]);
 
     useEffect(() => {
         let done_num = 0;
@@ -84,6 +74,35 @@ const worker_profile = () => {
         }
         setHoldtickets(tickets);
     }, [mytickets]);
+
+    // ボタンがクリックされたときの処理
+    const handleSubmit = () => {
+        
+        // フォームのデータを作成
+        const formData = {
+            "worker_id" : worker_id,
+            "post_id": selectedPost,
+            "use_date": startDate,
+            "comment": question,
+        };
+
+        // フォームのデータをサーバーに送信するリクエスト
+        const fetchBookingData = async () => {
+            try {
+                // データの取得
+                await InsertBooking(formData);
+
+            } catch (error) {
+                console.error("Error fetching worker data:", error);
+                // エラー処理が必要な場合、適切なエラーハンドリングを行う
+            }
+        };
+        fetchBookingData(); // 関数の呼び出し
+        
+        // デバッグ用にコンソールに出力
+        console.log(formData);
+
+    };
     
     return (
         <>
@@ -153,9 +172,9 @@ const worker_profile = () => {
                         </div>
                     </div>
 
-                    <div class="flex justify-center items-center" onClick={() => handleItemClick(3)}>
-                        <div class='card outline outline-base-300 hover:outline-primary w-60 h-30 shadow-xl hover:shadow-yellow-800/30 text-neutral  hover:text-primary transition duration-200 hover:duration-300'>
-                            <div class="flex flex-col items-center justify-center p-4">
+                    <div className="flex justify-center items-center" onClick={() => handleItemClick(3)}>
+                        <div className='card outline outline-base-300 hover:outline-primary w-60 h-30 shadow-xl hover:shadow-yellow-800/30 text-neutral  hover:text-primary transition duration-200 hover:duration-300'>
+                            <div className="flex flex-col items-center justify-center p-4">
                                 <IconContext.Provider value={{size: '36px'}}>
                                     <FaCoins />
                                 </IconContext.Provider>
@@ -166,15 +185,18 @@ const worker_profile = () => {
                 </div>
 
                 {selectedItem === 1 && (
-                    <div className="card bg-base-100 shadow-xl outline outline-base-200 p-8 space-y-4">
+                    <form onSubmit={handleSubmit} className="card bg-base-100 shadow-xl outline outline-base-200 p-8 space-y-4">
 
-                        <p>■どの案件に対してチケットを使いますか？</p>
-                        
-                        <select className="select select-secondary w-full max-w-xs">
-                            <option disabled selected>Pick your POST</option>
-                            <option>Java</option>
-                            <option>Go</option>
-                            <option>C</option>
+                        <p>■どの案件に対してチケットを使いますか？</p>                        
+                        <select className="select select-secondary w-full max-w-xs" value={selectedPost} onChange={(e) => setSelectedPost(e.target.value)}>
+                            <option selected>Pick your POST</option>
+                            {contractInfo && contractInfo.map((contract) => (
+                                contract.post_status >= 201 && contract.post_status < 300 ? (
+                                    <option key={contract.post_id} value={contract.post_id}>
+                                        {contract.post_title}
+                                    </option>
+                                ) : null
+                            ))}
                         </select>
 
                         <p>■どの枠で使用しますか？</p>
@@ -186,20 +208,70 @@ const worker_profile = () => {
                             dateFormat="MM/dd/yyyy h:mm aa"
                             showTimeInput
                         />
-                        
 
                         <p>■お助け時間で質問したい内容を記載下さい。</p>
-                        <textarea className="textarea textarea-secondary" placeholder="質問したい内容を記載"></textarea>
+                        <textarea className="textarea textarea-secondary" placeholder="質問したい内容を記載" value={question}onChange={(e) => setQuestion(e.target.value)}></textarea>
 
-                        <button className="btn btn-outline btn-primary">チケットを消費</button>
-
-                    </div>
+                        <button type="submit" className="btn btn-outline btn-primary">チケットを消費</button>
+                        
+                    </form>
                     
                 )}
 
                 {selectedItem === 2 && (
                     <div className="card bg-base-100 shadow-xl outline outline-base-200 p-8">
-                        2
+                                            <table className="table">
+                        {/* head */}
+                        <thead>
+                            <tr>
+                                <th>
+                                    <label>
+                                        <input type="checkbox" className="checkbox" />
+                                    </label>
+                                </th>
+                                <th><div className="grid  gap-3">予約日時</div></th>
+                                <th><div className="grid  gap-3">予約内容</div></th>
+                                <th><div className="grid  gap-3">ステータス</div></th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {MyBookings && MyBookings.length > 0 && MyBookings.map((booking) => (
+                                <tr>
+                                    <th>
+                                        <label>
+                                            <input type="checkbox" className="checkbox" />
+                                        </label>
+                                    </th>
+                                    <td>
+                                        <div className="flex gap-3">
+                                            <div>
+                                                <div className="font-bold"><p>{booking.use_date}</p></div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div className="flex gap-3">
+                                            <div>
+                                                {
+                                                    booking.comment.length > 30 ?
+                                                    <div>{booking.comment.slice(0, 30)}...</div> :
+                                                    <div>{booking.comment}</div>
+                                                }
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <th>
+                                        <div className="flex gap-3">
+                                            <button className="btn btn-primary ">予約済</button>
+                                        </div>
+                                    </th>
+                                </tr>
+                            ))}
+                        </tbody>
+                        {MyBookings && MyBookings.length === 0 &&(<div className='grid items-center text-2xl p-4'>現在予約はありません</div>)}
+                        
+                    </table>
                     </div>
                     
                 )}

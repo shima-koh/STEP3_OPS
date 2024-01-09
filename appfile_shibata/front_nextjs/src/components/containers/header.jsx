@@ -11,7 +11,9 @@ const Header = ({userStatus}) => {
             <> {/* サインインしている場合の表示*/}
                 {/* ヘッダー左端のTitle */}
                 <div className="flex-1 divide-y divid-gray-200">
-                    <a href="/search" className="btn btn-ghost text-xl">DOJO</a>
+                    <a href="/search" className="btn btn-ghost text-xl">
+                        <img src="/logo_redo.svg" className="h-10 w-10" fill="none" viewBox="0 0 24 24" />DOJO
+                    </a>
                 </div>
 
                 <div className="flex-none">
