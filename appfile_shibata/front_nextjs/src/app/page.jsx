@@ -13,7 +13,7 @@ const Home = () => {
             alt="Logo"
             className="h-8"
             height="32"
-            src="/placeholder.svg"
+            src="/logo_redo.svg"
             style={{
               aspectRatio: "32/32",
               objectFit: "cover",
@@ -24,7 +24,7 @@ const Home = () => {
             <Link className="text-primary hover:text-gray-800" href="/">
               About
             </Link>
-            <Link className="text-gray-600 hover:text-gray-800" href="/">
+            <Link className="text-nautralo hover:text-gray-800" href="/">
               Service
             </Link>
             <Link className="text-gray-600 hover:text-gray-800" href="/">

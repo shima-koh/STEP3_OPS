@@ -73,6 +73,40 @@ def selectActivePosts(mymodel):
     return result_json
 
 
+
+
+def selectAPIActivePosts(mymodel):
+    # session構築
+    Session = sessionmaker(bind=engine)
+    session = Session()
+
+    try:
+        # トランザクションを開始
+        with session.begin():
+            # SQLAlchemy の Query オブジェクトを生成
+            query = session.query(mymodel).filter(mymodel.post_status == 102)
+
+            # Query オブジェクトを直接実行して結果を取得
+            result = query.all()
+
+            # 結果を DataFrame に変換
+            df = pd.DataFrame([
+                {'post_id': row.post_id, 'post_title': row.post_title, 'post_requireskill': row.post_requireskill}  # 必要なカラムのみを選択
+                for row in result
+            ])
+
+            print(df)
+
+    except sqlalchemy.exc.IntegrityError:
+        print("一意制約違反により、挿入に失敗しました")
+        df = None
+    finally:
+        # セッションを閉じる
+        session.close()
+
+    return df
+
+
 def selectPostDetail(mymodel, post_id):
     # session構築
     Session = sessionmaker(bind=engine)

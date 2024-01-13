@@ -76,19 +76,22 @@ def logout():
     logout_user()
     return jsonify({'isLoggedIn': False,})
 
-
-
-
 @app.route('/chat', methods=['POST'])
 def chat():
     # フロントエンドからの会話履歴を取得します。
     conversation = request.json.get('conversation')
-    #model = mymodels.Posts
-    #result = crud.selectActivePosts(model)
+    model = mymodels.Posts
+    result = crud.selectAPIActivePosts(model)
+
+    # DataFrameから必要な情報を抽出し、テキストに変換
+    result_text = "\n".join(result[['post_id', 'post_title', 'post_requireskill']].apply(lambda x: f"{x['post_id']} - {x['post_title']} ({x['post_requireskill']})", axis=1))
+
+
+    conversation[-1]["content"] = "■ユーザーからの質問：" + conversation[-1]["content"] + "\n 下記はユーザーからの質問に関係する場合使用して良い参考データです。/n■参考データ:" + result_text
     
     # OpenAIのAPIを使用してChatGPTに問い合わせます。
     client = OpenAI(
-    api_key="YOUR API KEY"
+    api_key="YOur key"
     )
 
     #model = mymodels.Posts
