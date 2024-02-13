@@ -120,7 +120,7 @@ const worker_profile = () => {
                         </div>
                         <div className="stat-title"><strong>契約総数</strong></div>
                         <div className="stat-value text-primary">{contractDone}</div>
-                        <div className="stat-desc">21% more than last month</div>
+                        <div className="stat-desc">16% more than last month</div>
                     </div>
                     
                     <div className="stat text-center">
@@ -142,7 +142,7 @@ const worker_profile = () => {
                         </div>
                         <div className="stat-title"><strong>保有チケット数</strong></div>
                         <div className="stat-value text-primary">{holdtickets}</div>
-                        <div className="stat-desc">21% more than last month</div>
+                        <div className="stat-desc">please buy new tickets</div>
                     </div>
                 </div>
 
@@ -162,7 +162,7 @@ const worker_profile = () => {
                     </div>
 
                     <div className="flex justify-center items-center" onClick={() => handleItemClick(2)}>
-                        <div className='card outline outline-base-300 hover:outline-primary w-60 h-30 shadow-xl hover:shadow-yellow-800/30 text-neutral hover:text-primary transition duration-200 hover:duration-300'>
+                        <div className={`card outline  hover:outline-primary w-60 h-30  hover:shadow-yellow-800/30  hover:text-primary transition duration-200 hover:duration-300 ${selectedItem === 2 ? 'outline-primary shadow-yellow-800/30 text-primary' : 'outline-base-300 shadow-xl text-neutral'}`}>
                             <div className="flex flex-col items-center justify-center p-4">
                                 <IconContext.Provider value={{size: '36px'}}>
                                 <FaRegCalendarCheck />
@@ -173,7 +173,7 @@ const worker_profile = () => {
                     </div>
 
                     <div className="flex justify-center items-center" onClick={() => handleItemClick(3)}>
-                        <div className='card outline outline-base-300 hover:outline-primary w-60 h-30 shadow-xl hover:shadow-yellow-800/30 text-neutral  hover:text-primary transition duration-200 hover:duration-300'>
+                        <div className={`card outline  hover:outline-primary w-60 h-30  hover:shadow-yellow-800/30  hover:text-primary transition duration-200 hover:duration-300 ${selectedItem === 3 ? 'outline-primary shadow-yellow-800/30 text-primary' : 'outline-base-300 shadow-xl text-neutral'}`}>
                             <div className="flex flex-col items-center justify-center p-4">
                                 <IconContext.Provider value={{size: '36px'}}>
                                     <FaCoins />
@@ -220,7 +220,7 @@ const worker_profile = () => {
 
                 {selectedItem === 2 && (
                     <div className="card bg-base-100 shadow-xl outline outline-base-200 p-8">
-                                            <table className="table">
+                        <table className="table">
                         {/* head */}
                         <thead>
                             <tr>
@@ -278,7 +278,7 @@ const worker_profile = () => {
 
                 {selectedItem === 3 && (
                     <div className="card bg-base-100 shadow-xl outline outline-base-200 p-8">
-                        3
+                        <img style={{ width: '700px' }} className="p-4" src="/Buy.png" alt="icon" />
                     </div>
                     
                 )}

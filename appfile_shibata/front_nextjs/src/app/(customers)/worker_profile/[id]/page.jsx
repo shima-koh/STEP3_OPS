@@ -99,8 +99,16 @@ const worker_profile = () => {
                     {/**ワーカーのプロフィールテキスト */}
                     <div className="card-body items-center text-center">
                         <h2 className="card-title">{worker_name}</h2>
+                        <div className='flex'>
+                            <img className="h-16 w-16 p-4" src="/logos/twitter.png" alt="icon" />
+                            <img className="h-16 w-16 p-4" src="/logos/instagram.png" alt="icon" />
+                            <img className="h-16 w-16 p-4" src="/logos/github.png" alt="icon" />
+                        </div>
                         <p>{worker_profile}</p>
                     </div>
+                    <style jsx>{
+                        `p {white-space: pre-line; 
+                    } `}</style>
                 </div>
 
                 <div className='w-full pl-8'>

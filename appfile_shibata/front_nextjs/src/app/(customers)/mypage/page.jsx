@@ -92,7 +92,7 @@ const worker_profile = () => {
                         </div>
                         <div className="stat-title"><strong>契約総数</strong></div>
                         <div className="stat-value text-primary">{contractDone}</div>
-                        <div className="stat-desc">21% more than last month</div>
+                        <div className="stat-desc">16% more than last month</div>
                     </div>
                     
                     <div className="stat text-center">
@@ -114,7 +114,7 @@ const worker_profile = () => {
                         </div>
                         <div className="stat-title"><strong>保有チケット数</strong></div>
                         <div className="stat-value text-primary">{holdtickets}</div>
-                        <div className="stat-desc">21% more than last month</div>
+                        <div className="stat-desc">please buy new tickets</div>
                     </div>
                 </div>
 

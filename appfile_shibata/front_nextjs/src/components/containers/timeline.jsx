@@ -28,12 +28,15 @@ const Timeline = (props) => {
 
             {selectedItem !== null && (
                 <div className="ml-4">
-                    <h4>実績評価</h4>
-                    <p>■トータルスコア：<strong className="text-lg">{fbs[selectedItem].totalscore}</strong></p>
+                    <h4><strong className="text-lg">実績評価</strong></h4>
+                    <p><br/>■トータルスコア：<strong className="text-lg">{fbs[selectedItem].totalscore}</strong></p>
                     <p>■テクノロジー領域のスキルへの評価：<strong className="text-lg">{fbs[selectedItem].TechScore}</strong></p>
                     <p>■デザイン領域のスキルへの評価：<strong className="text-lg">{fbs[selectedItem].DesignScore}</strong></p>
                     <p>■ビジネス領域のスキルへの評価：<strong className="text-lg">{fbs[selectedItem].BizScore}</strong></p>
-                    <p>■コメント：{fbs[selectedItem].feedback_content}</p>
+                    <p><br/>■コメント：{fbs[selectedItem].feedback_content}</p>
+                    <style jsx>{
+                        `p {white-space: pre-line; 
+                    } `}</style>
                 </div>
             )}
         </div>

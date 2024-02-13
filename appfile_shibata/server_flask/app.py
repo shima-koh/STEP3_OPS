@@ -87,11 +87,11 @@ def chat():
     result_text = "\n".join(result[['post_id', 'post_title', 'post_requireskill']].apply(lambda x: f"{x['post_id']} - {x['post_title']} ({x['post_requireskill']})", axis=1))
 
 
-    conversation[-1]["content"] = "■ユーザーからの質問：" + conversation[-1]["content"] + "\n 下記はユーザーからの質問に関係する場合使用して良い参考データです。/n■参考データ:" + result_text
+    conversation[-1]["content"] = "■ユーザーからの質問：" + conversation[-1]["content"] + "\n 下記はユーザーからの質問に関係する場合使用して良い参考データです。該当案件は最大3件までとする。/n■参考データ:" + result_text
     
     # OpenAIのAPIを使用してChatGPTに問い合わせます。
     client = OpenAI(
-    api_key="YOur key"
+    api_key="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"
     )
 
     #model = mymodels.Posts
@@ -103,6 +103,8 @@ def chat():
         model="gpt-3.5-turbo",
         messages=conversation  # 更新された会話履歴を使用
     )
+
+    print(response.choices[0].message.content)
 
     # ChatGPTからの応答をフロントエンドに返します。
     return jsonify({'response': response.choices[0].message.content})
